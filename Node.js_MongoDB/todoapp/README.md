@@ -221,6 +221,22 @@ findOne함수를 쓰시면 collection 내에서 내가 원하는 문서를 쉽�
 
 **{ $inc : { totalPost : 5 } }** 이렇게 넣어서 값을 5만큼 더해줄 수도 있습니다.
 
+**(박인현)** 구글 검색 후 findOneAndUpdate를 사용. 저장완료 후 list 페이지 이동.
+```jsx
+  app.post('/add', function(요청, 응답){
+    db.collection('counter').findOne({name : '게시물갯수'}, function(에러, 결과){
+      var 총게시물갯수 = 결과.totalPost;
+      db.collection('post').insertOne( { _id : (총게시물갯수 + 1), 제목 : 요청.body.title, 날짜 : 요청.body.date } , function(){
+        console.log('저장완료');
+        응답.redirect('/list');  // 저장 완료에서 멈추지 않고 다시 리스트 페이지로 이동
+      });
+      db.collection('counter').findOneAndUpdate({name : '게시물갯수'}, {
+          $set: {totalPost:  (총게시물갯수 + 1) }
+      });
+    });
+  });
+```
+
 ### 2-8.AJAX로 삭제요청하기 1 (HTML 파일 구성). DB Update 함수와 inc 연산자
 
 삭제요청을 할 때 쓸 수 있는 3가지 방법이 있습니다.

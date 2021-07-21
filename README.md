@@ -12,5 +12,5 @@
 
 - 인스타그램을 만들며 배워보는 Vue.js 완벽 가이드
 
-### Vue
+### Api_poject
 - 풀스택 리액트 토이프로젝트 - REST, GraphQL (for FE개발자)

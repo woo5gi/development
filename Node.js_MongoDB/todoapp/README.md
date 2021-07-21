@@ -321,3 +321,44 @@ app.use('/public', express.static('public'))
 ```jsx
 <%- include('nav.html') %>
 ```
+
+## Part3
+
+## (2021-07-21)
+
+### 3-1. 글 수정 기능 1 : /edit 페이지 안내와 method-override
+
+input안에 기존 데이터 채워주려면 <%= %>EJS 문법을 쓰면 됨
+
+**method-override 라이브러리 사용법**
+
+npm install method-override
+
+```jsx
+const methodOverride = require('method-override')
+app.use(methodOverride('_method'))
+```
+
+form 태그에 PUT요청을 사용가능
+
+### 3-2. 글 수정 기능 2 : DB 데이터를 수정해보자
+
+method=PUT
+
+```jsx
+<form action="/edit?_method=PUT" method="POST">
+  <input 어쩌구>
+</form>
+```
+
+**DB 데이터를 수정하려면 updateOne 씀**
+
+updateOne( 1.업데이트할게시물찾기, 2.수정할내용, 3.콜백함수)
+
+```jsx
+.updateOne( {_id : ??}, {$set : { 제목 : ??, 날짜 : ?? }}, function(){}
+```
+
+**<form>태그에 몰래 안보이는 <input>을 추가 ⇒ id 정보 가져옴**
+
+전송된 input 데이터들 요청.body.title로 확인

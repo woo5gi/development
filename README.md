@@ -16,6 +16,7 @@
 ### Bora_proto
 
 - Node.js_ MongoDB를 활용한 crud
+- 서버 시작 : nodemon server.js
 
 ### Api_poject
 - 풀스택 리액트 토이프로젝트 - REST, GraphQL (for FE개발자)

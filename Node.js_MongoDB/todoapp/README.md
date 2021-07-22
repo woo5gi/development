@@ -362,3 +362,126 @@ updateOne( 1.업데이트할게시물찾기, 2.수정할내용, 3.콜백함수)
 **<form>태그에 몰래 안보이는 <input>을 추가 ⇒ id 정보 가져옴**
 
 전송된 input 데이터들 요청.body.title로 확인
+
+## (2021-07-22) 
+
+### 3-3. 세션, JWT, OAuth 등 회원인증 방법론 쉽게 이해하기
+
+1.  Session-based Authentication
+
+사용자의 세션정보를 저장해서 로그인 기능을 구현
+
+1.  JSON Web Token (JWT)
+
+토큰 방식은 세션데이터를 서버에 저장하지 않고
+
+마이페이지를 열람할 수 있는 열쇠(토큰)를 사용자에게 쥐어주는 것
+
+1. Open Autentication
+
+페이스북, 구글 로그인
+
+### 3-4. (회원인증기능 1) 로그인 페이지 만들기 & 아이디 비번 검사
+
+**npm install passport passport-local express-session**
+
+```jsx
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const session = require('express-session');
+
+app.use(session({secret : '비밀코드', resave : true, saveUninitialized: false}));
+app.use(passport.initialize());
+app.use(passport.session());
+```
+
+미들웨어 ⇒ 요청과 응답 사이에 뭔가 실행시키는 코드
+
+흐름
+
+1. 로그인 페이지 제작 / 라우팅
+2. 로그인 요청시 아이디/비번 검증 미들웨어 실행시키기
+3. 아이디/비번 검증하는 세부 코드 작성
+
+### 3-5. (회원인증기능 2) 아이디 비번을 DB와 비교하고 세션 만들어주기
+
+1. 아이디/비번 DB와 맞는지 비교
+
+    **1. DB에서 {id : 입력한아이디} 인 문서를 찾은 다음에**
+
+    **2. 그게 있으면 그 문서에 있는 pw 값과 입력한 비번을 비교하면 되지 않을까요?**
+
+    **3. 성공하면 찾은 유저를 출력해주든가 그러시면 되겠군요**
+
+2. 세션 만들고 세션아이디 발급해서 쿠키로 보내주기
+
+### 3-6. (회원인증기능 3) 로그인 유저만 접속할 수 있는 페이지 만들기
+
+**세션아이디를 바탕으로 이 유저의 정보를 DB에서 찾기 ⇒ 요청.user**
+
+### 3-7. .env 파일에서 민감한 환경변수들 관리하기
+
+npm install dotenv
+
+```jsx
+require('dotenv').config()
+
+//(.env 파일)
+PORT=8080
+DB_URL="mongodb+srv://codingapple1@저쩌구"
+```
+
+### 3-8. 검색기능 만들기 1 : URL query string
+
+- collection().findOne() 하면 하나 찾을 수 있음
+- collection().find().toArray() 하면 여러개
+
+**query string**
+
+/search?value=값
+
+### 3-9. 검색기능 만들기 2 : 게시물이 100만개일 때 쓰는 indexing 개념설명
+
+{ 인덱스만들항목이름 : 'text' }
+
+### 3-10. 검색기능 만들기 3 : 네이버같은 검색기능 만들려면 (Search index)
+
+**Query string ⇒ param, serialize**
+
+여러가지 검색용 연산자 ⇒ aggregate() 안에 [ {검색조건1}, {검색조건2} ... ]
+
+- $sort를 쓰면 결과를 정렬
+- $limit을 쓰면 결과를 제한
+- $project를 쓰면 찾아온 결과 중에 원하는 항목만 보여줌
+
+### 3-11. 회원 기능을 포함한 게시판 기능
+
+**denormalizing**
+
+### 3-12. router 폴더와 파일을 만들어 API들 관리하기
+
+```jsx
+// (server.js)
+
+app.use('/', require('./routes/shop.js') );
+
+//요약
+(server.js)
+
+app.use('/shop', require('./routes/shop.js') );
+
+// (shop.js)
+
+var router = require('express').Router();
+
+router.get('/shirts', function(요청, 응답){
+   응답.send('셔츠 파는 페이지입니다.');
+});
+
+router.get('/pants', function(요청, 응답){
+   응답.send('바지 파는 페이지입니다.');
+}); 
+
+module.exports = router;
+
+```

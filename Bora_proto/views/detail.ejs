@@ -25,6 +25,7 @@
           <h6 class="card-subtitle mb-2 text-muted">
             <%= note.date %>
           </h6>
+          <a href="<%= note.address %> " target="_blank" class="card-link">새 탭에 페이지 열기</a>
           <p class="card-text"><%= note.memo %> </p>
           <div id="content-fetching"></div>
         </div>
@@ -32,23 +33,20 @@
     </div>
 
     <script>
-      const contentsFetching = document.getElementById("content-fetching")
+    //   const contentsFetching = document.getElementById("content-fetching")
 
-      fetch("https://blog.martinwork.co.kr/nestjs/2020/03/22/what-is-nestjs.html")
-        .then(response => response.text())
-        .then(result => contentsFetching.innerHTML = result)
-    </script>
+    //   fetch("https://blog.martinwork.co.kr/nestjs/2020/03/22/what-is-nestjs.html")
+    //     .then(response => response.text())
+    //     .then(result => contentsFetching.innerHTML = result)
+    // </script>
 
     
-    <!-- <script>
+    <script>
         const contentsFetching = document.getElementById("content-fetching")
-
-        //console.log(<%= note.date %>)
-
-        fetch('<%= note.date %>')
+        fetch("<%= note.address %>")
             .then(response => response.text())
             .then(result => contentsFetching.innerHTML = result)
-    </script> -->
+    </script>
 
 
     <!-- Optional JavaScript; choose one of the two! -->

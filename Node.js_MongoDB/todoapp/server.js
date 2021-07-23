@@ -134,7 +134,12 @@ app.post('/add', loginOk,function (요청, 응답) {
     응답.redirect('/list')
   });
 });
-
+//상세페이지 보기
+app.get('/detail/:id', function (req, res) {
+  db.collection('note').findOne({ _id: parseInt(req.params.id) }, function (err, result) {
+    res.render('detail.ejs', { note: result })
+  })
+});
 //수정
 app.get('/edit/:id', function (요청, 응답) {
   db.collection('post').findOne({ _id: parseInt(요청.params.id) }, function (에러, 결과) {

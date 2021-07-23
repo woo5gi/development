@@ -1,19 +1,32 @@
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #9051D1;">
+<nav class="navbar navbar-expand-lg navbar-light " style="background-color: #9051D1;">
   <div class="container-fluid">
     <a class="navbar-brand" href="/list" style="color: #ffcc40;">Bora</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" href="/list">Note</a>
+          <a class="nav-link active" aria-current="page" href="/list">Note</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/write">Write</a>
+          <a class="nav-link active" aria-current="page" href="/write">Write</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/login">Login</a>
         </li>
       </ul>
+      <!-- <form class="d-flex">
+        <input class="form-control me-2" id="search-input" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn btn-light" id="search" type="submit">Search</button>
+      </form> -->
     </div>
   </div>
 </nav>
+
+<script>
+$('#search').click(function(){
+  var inputValue = $('#search-input').val();
+  window.location.replace('/search?value=' + inputValue)
+});
+</script>

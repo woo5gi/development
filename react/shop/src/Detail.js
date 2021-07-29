@@ -3,6 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 
 function Detail(props){
 
+  let history = useHistory();
   let { id } = useParams();
   let 찾은상품 = props.shoes.find(function(상품){
     return 상품.id == id
@@ -34,11 +35,22 @@ function Detail(props){
           <h4 className="pt-5">{찾은상품.title}</h4>
           <p>{찾은상품.content}</p>
           <p>{찾은상품.price}원</p>
-          <button className="btn btn-danger">주문하기</button> 
+          <button onClick={()=>{ props.재고변경([9,10,11]) }}> 주문하기 </button>
+          <button onClick={()=>{ history.push('/') }} className="btn btn-danger">뒤로가기</button>
         </div>
+
+        <Info 재고 ={props.재고}></Info>
+        
       </div>
   </div>  
   )
 };
+
+function Info(props){
+  return (
+    <p>재고 : {props.재고[1]}</p>
+  )
+}
+
 
 export default Detail 

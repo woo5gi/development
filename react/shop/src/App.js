@@ -5,6 +5,7 @@ import './App.css';
 import Data from './data.js';
 import { Link, Route, Switch } from 'react-router-dom';
 import Detail from './Detail.js';
+import axios from 'axios';
 
 function App() {
 
@@ -34,26 +35,35 @@ function App() {
 
 
       <Switch>
-      <Route exact path="/">
-        <div className="background">
-          <h1>hollo,world</h1>
-          <p>글내용</p>
-          <p><Button variant="primary">learn more</Button></p>
-        </div>
-
-        <div className="container">
-          <div className="row">
-            {
-              shoes.map((a, i) => {
-                return <Card shoes={shoes[i]} i={i} />
-              })
-            }
+        <Route exact path="/">
+          <div className="background">
+            <h1>hollo,world</h1>
+            <p>글내용</p>
+            <p><Button variant="primary">learn more</Button></p>
           </div>
-        </div>
 
-      </Route>
-      <Route path="/detail/:id">
-          <Detail shoes={shoes}/>
+          <div className="container">
+            <div className="row">
+              {
+                shoes.map((a, i) => {
+                  return <Card shoes={shoes[i]} i={i} key={i} />
+                })
+              }
+            </div>
+            <button className="btn btn-primary" onClick={() => {
+                   axios.get('https://codingapple1.github.io/shop/data2.json')
+                   .then((result)=>{ 
+                     console.log(result.data);
+                     //카피본 
+                    shoes변경([...shoes, ...result.data]);
+                    })
+                   .catch(()=>{ console.log("Error") })
+            }}>더보기</button>
+          </div>
+
+        </Route>
+        <Route path="/detail/:id">
+          <Detail shoes={shoes} />
         </Route>
       </Switch>
 

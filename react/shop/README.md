@@ -8,6 +8,7 @@
  npm install react-router-dom
  npm install styled-componentss
  npm install node-sass
+npm install axios
 ## bootstrap
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     npm install react-bootstrap@next bootstrap@5.0.2

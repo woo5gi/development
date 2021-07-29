@@ -19,11 +19,11 @@
 - XMLHttpRequest
 - Etc
 
-AJAX로 할 수 있는 것
+### AJAX로 할 수 있는 것
 
 AJAX라는 네트워크 기술을 이용하여 클라이언트에서 서버로 데이터를 요청하고 그에 대한 결과를 돌려받을 수 있다.
 
-AJAX를 사용하는 이유
+### AJAX를 사용하는 이유
 
 AJAX는 HTML 페이지 전체가 아닌 일부분만 갱신할 수 있도록 XMLHttpRequest객체를 통해 서버에 request한다. 이 경우, JSON이나 XML형태로 필요한 데이터만 받아 갱신하기 때문에 그만큼의 자원과 시간을 아낄 수 있다.
 
@@ -87,7 +87,7 @@ $.ajax({
     })
 
 // 버튼을 누르면 Ajax 요청
-	<h4>임시내용</h4>
+  <h4>임시내용</h4>
   <button id='어쩌구버튼'>버튼</button>
     $('#어쩌구버튼').click(function () {
       $.ajax({
@@ -115,7 +115,7 @@ $.ajax({
 //React\shop\src\App.js
 <button className="btn btn-primary" onClick={() => {
                    axios
-									 .get('https://codingapple1.github.io/shop/data2.json')
+		   .get('https://codingapple1.github.io/shop/data2.json')
                    .then((result)=>{ 
                      console.log(result.data);
                      //카피본 

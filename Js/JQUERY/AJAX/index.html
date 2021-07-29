@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+
+<body>
+  <!-- 서버에 요청을 할 때 새로고침 없이 데이터를 주고받을 수 있게 도와주는게 바로 Ajax -->
+  <h4>임시내용</h4>
+  <button id='어쩌구버튼'>버튼</button>
+
+  <div class="card">
+    <img src="" class="card-img-top">
+    <div class="card-body">
+      <h5 class="card-title">임시 제목</h5>
+      <p class="card-text">임시 가격</p>
+      <a href="#" class="btn btn-primary">더 알아보기</a>
+    </div>
+  </div>
+
+  <button class="btn btn-danger">상품을 불러오는 버튼</button>
+
+
+  <script>
+    // $.ajax({
+    //   url: 'https://naver.com',
+    //   type: 'GET'
+    // });
+
+    // $.ajax({
+    //   url: 'https://codingapple1.github.io/hello.txt',
+    //   type: 'GET'
+    // });
+
+    $.ajax({
+      url: 'https://codingapple1.github.io/hello.txt',
+      type: 'GET'
+    }).done(function (데이터) {
+      console.log(데이터);
+    });
+
+    // 버튼을 누르면 Ajax 요청
+    $('#어쩌구버튼').click(function () {
+      $.ajax({
+        url: 'https://codingapple1.github.io/hello.txt',
+        type: 'GET'
+      }).done(function (데이터) {
+        $('h4').html(데이터)
+      });
+    });
+
+    //     $.ajax({ 
+    //     url : 'https://codingapple1.github.io/hello.txt',
+    //     type : 'GET',
+    //     data : '어쩌구',
+    //     dataType : '저쩌구'
+    // });
+
+    $.ajax({
+      url: 'https://codingapple1.github.io/hello.txt',
+      type: 'GET'
+    }).fail(function () {
+      // 요청이 실패했을 때 실행할 코드 
+    }).always(function () {
+      // 실패하든 성공하든 항상 실행할 코드
+    })
+
+    // textStatus, errorThrown을 출력해보면 Ajax 요청이 왜 실패했는지 알수있음
+    $.ajax({
+      url: 'https://이상한URL.com',
+      type: 'GET'
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+      console.log(errorThrown)
+    })
+
+    $('.btn-danger').click(function () {
+      $.ajax({
+        url: 'https://codingapple1.github.io/data.json',
+        type: 'GET'
+      }).done(function (데이터) {
+        $('.card-title').html(데이터.model);
+        $('.card-img-top').attr('src', 데이터.img);
+      });
+    });
+
+  // JSON.parse()라는 함수에 담으면 따옴표가 제거된 object가 생성
+  // var 오브젝트 = JSON.parse(여러분의 제이슨데이터);
+  // JSON.stringify()라는 함수에 담으면 object 자료형에 따옴표를 예쁘게 쳐서 JSON을 만들어줌
+  // var 제이슨 = JSON.stringify(여러분의 오브젝트데이터);
+  // jQuery ajax 함수를 쓰면 JSON을 가져와도 지가 알아서 쓰기좋게 object로 변환해주기 때문에 따로 신경쓸 필요는 없음
+  </script>
+</body>
+
+</html>

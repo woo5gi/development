@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 import { Navbar, Container, Nav, NavDropdown, Button } from 'react-bootstrap';
 import './App.css';
 import Data from './data.js';
-import { Link, Route, Switch } from 'react-router-dom';
+import { Link, Route, Switch, useHistory } from 'react-router-dom';
 import Detail from './Detail.js';
 import axios from 'axios';
+import Cart from './Cart.js';
 
 function App() {
 
@@ -51,20 +52,27 @@ function App() {
               }
             </div>
             <button className="btn btn-primary" onClick={() => {
-                   axios.get('https://codingapple1.github.io/shop/data2.json')
-                   .then((result)=>{ 
-                     console.log(result.data);
-                     //카피본 
-                    shoes변경([...shoes, ...result.data]);
-                    })
-                   .catch(()=>{ console.log("Error") })
+              axios.get('https://codingapple1.github.io/shop/data2.json')
+                .then((result) => {
+                  console.log(result.data);
+                  //카피본 
+                  shoes변경([...shoes, ...result.data]);
+                })
+                .catch(() => { console.log("Error") })
             }}>더보기</button>
           </div>
 
         </Route>
+        
+        <Route path="/cart">
+          <Cart></Cart>
+        </Route>
+
         <Route path="/detail/:id">
           <Detail shoes={shoes} />
         </Route>
+
+
       </Switch>
 
     </div>
@@ -72,8 +80,9 @@ function App() {
 }
 
 function Card(props) {
+  let history = useHistory();
   return (
-    <div className="col-md-4">
+    <div className="col-md-4" onClick={() => { history.push('/detail/' + props.shoes.id) }}>
       <img src={'https://codingapple1.github.io/shop/shoes' + (props.i + 1) + '.jpg'} width="100%" />
       <h4>{props.shoes.title}</h4>
       <p>{props.shoes.content} & {props.shoes.price}</p>

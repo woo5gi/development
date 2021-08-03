@@ -6,6 +6,8 @@
 <!-- 또는 -->
 Set-ExecutionPolicy Unrestricted
 
+- yarn cache clean
+
 ### 환경설정
 
 - yarn init -y
@@ -25,4 +27,4 @@ Set-ExecutionPolicy Unrestricted
 - server: root 에서 yarn run server
 
 ### GraphQL
-- yarn add apollo-server apollo-server-express qraphql
+- yarn add apollo-server apollo-server-express graphql

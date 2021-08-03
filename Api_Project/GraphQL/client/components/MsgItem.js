@@ -1,6 +1,6 @@
-import MsgInput from './MsgInput' //데이터 업데이트용
+import MsgInput from './MsgInput'
 
-const MsgItem = ({id, userId, timestamp,text, onUpdate, onDelete, startEdit, isEditing, myId, user}) => (
+const MsgItem = ({ id, timestamp, text, onUpdate, onDelete, isEditing, startEdit, myId, user }) => (
   <li className="messages__item">
     <h3>
       {user.nickname}{' '}
@@ -15,15 +15,16 @@ const MsgItem = ({id, userId, timestamp,text, onUpdate, onDelete, startEdit, isE
         })}
       </sub>
     </h3>
+
     {isEditing ? (
       <>
-        {/* id 는  onUpdate할 아이디*/}
         <MsgInput mutate={onUpdate} text={text} id={id} />
       </>
     ) : (
       text
     )}
-    {myId === userId && (
+
+    {myId === user.id && (
       <div className="messages__buttons">
         <button onClick={startEdit}>수정</button>
         <button onClick={onDelete}>삭제</button>
@@ -31,4 +32,5 @@ const MsgItem = ({id, userId, timestamp,text, onUpdate, onDelete, startEdit, isE
     )}
   </li>
 )
+
 export default MsgItem

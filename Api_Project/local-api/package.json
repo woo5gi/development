@@ -1,0 +1,26 @@
+{
+  "name": "loacal-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/roy-jung/api-practice.git",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "client": "yarn workspace client start",
+    "server": "yarn workspace server start"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "next": "^11.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "sass": "^1.35.2"
+  },
+  "devDependencies": {
+    "webpack": "^5.45.1"
+  }
+}

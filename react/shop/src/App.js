@@ -1,12 +1,13 @@
 /* eslint-disable */
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense} from 'react';
 import { Navbar, Container, Nav, NavDropdown, Button } from 'react-bootstrap';
 import './App.css';
 import Data from './data.js';
 import { Link, Route, Switch, useHistory } from 'react-router-dom';
-import Detail from './Detail.js';
+//import Detail from './Detail.js';
 import axios from 'axios';
 import Cart from './Cart.js';
+let Detail = lazy( ()=>{ return import('./Detail.js') } );
 
 function App() {
 
@@ -69,7 +70,9 @@ function App() {
         </Route>
 
         <Route path="/detail/:id">
-          <Detail shoes={shoes} />
+          <Suspense fallback={<div>로딩중입니다~!</div>}>
+            <Detail shoes={shoes} />
+          </Suspense>
         </Route>
 
 

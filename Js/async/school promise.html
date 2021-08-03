@@ -1,0 +1,62 @@
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+
+
+<script>
+  function 학생정보_조회_Promise(학생_학번) {
+    return new Promise(function (resolve, reject) {
+      ajax(baseUrl + "student-info/" + 학생_학번,
+        function (response) {
+          학생_정보로_할_일(response)
+        });
+    });
+  }
+
+  function 고교_DB_주소_조회_Promise(학생_주민번호, 고교명) {
+
+    return new Promise(function (resolve, reject) {
+      ajax(baseUrl + "highschool-db/" + 고교명,
+        function (response) {
+          주소로_할_일(response)
+        });
+    });
+  }
+
+  function 고교시_수강수업_조회_Promise(학생_주민번호, 고교_DB_주소) {
+    return new Promise(function (resolve, reject) {
+      ajax(baseUrl + "classes/" + 고교_DB_주소 + "/" + 학생_주민번호,
+        function (response) {
+          수강과목_알람으로_할_일(response)
+        });
+    });
+  }
+
+  function 수업정보_조회_Promise(학생의_고3수학_수업코드) {
+    return new Promise(function (resolve, reject) {
+      ajax(baseUrl + "classes-info/" + 학생의_고3수학_수업코드,
+        function (response) {
+          수업정보로_할_일(response)
+        });
+    });
+  }
+
+  학생정보_조회_Promise("1234")
+  .then(function (학생_정보){
+    let 학생_주민번호 = 학생_정보['주민번호'];
+    let 고교명 = 학생_정보['고등학교명'];
+    return 고교_DB_주소_조회_Promise(학생_주민번호, 고교명)
+  })
+  .then(function (학생_정보){
+    return 고교재학시_수강수업_조회_고교_DB_주소_조회_Promise(
+    학생_주민번호_AND_고교_DB_주소[0],
+    학생_주민번호_AND_고교_DB_주소[1],  
+    )
+  })
+  .then(function (수강과목_일람){
+   let 학생의_고3수학_수업코드 = 수강과목_일람["고3수학"];
+   return 수업정보_조회_Promise(학생의_고3수학_수업코드);
+  })
+  .then(function (수업정보){
+    console.log(`담당교사: ${수업정보["교사명"]}`);
+  })
+
+</script>

@@ -1,0 +1,42 @@
+
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+
+
+  <script>
+    function 학생정보_조회(학생_학번, 학생정보로_할_일) {
+      ajax(
+        baseUrl + "student-info/" + 학생_학번,
+        function (response) {
+          학생_정보로_할_일(response)
+        }
+      );
+    }
+
+    function 고교_DB_주소_조회(고교명, 주소로_할_일) {
+      ajax(
+        baseUrl + "highschool-db/" + 고교명,
+        function (response) {
+          주소로_할_일(response)
+        }
+      );
+    }
+
+    function 고교시_수강수업_조회(고교_DB_주소, 학생_주민번호, 수강과목_알람으로_할_일) {
+      ajax(
+        baseUrl + "classes/" + 고교_DB_주소+"/"+학생_주민번호,
+        function (response) {
+          수강과목_알람으로_할_일(response)
+        }
+      );
+    }
+
+    function 수업정보_조회(학생의_고3수학_수업코드, 수업정보로_할_일) {
+      ajax(
+        baseUrl + "classes-info/" + 학생의_고3수학_수업코드,
+        function (response) {
+          수업정보로_할_일(response)
+        }
+      );
+    }
+
+  </script>

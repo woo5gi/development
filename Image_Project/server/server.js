@@ -28,8 +28,8 @@ const upload = multer({
 // 이미지 파일들 외부로 노출시켜주기
 app.use("/uploads",express.static("uploads"));
 
-app.post("/upload", upload.single("iamgeTest"), (req, res) => {
-  console.log(req.file);
-  res.json(req.file);
-})
+app.post("/upload", upload.single("image"), (req, res) => res.json(req.file));
+  // return res.status(500).json({error: "server failure"});
+  // res.json(req.file);
+  
 app.listen(PORT, () => console.log("Express server listening on PORT " + PORT))

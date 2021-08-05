@@ -1,12 +1,12 @@
 require("dotenv").config();
 const express = require("express");
-const multer = require('multer');
-const { v4: uuid } = require('uuid');
-const mime = require("mime-types");
 const mongoose = require("mongoose");
-const Image = require("./models/Image");
-
-
+const { imageRouter } = require("./routes/imageRouter");
+const { userRouter } = require("./routes/userRouter");
+const { MONGO_URI, PORT} = process.env;
+const {authenticate} = require("./middleware/authentication")
+/*
+// middleware 로 이사 (리팩토링)
 // 이미지 업로드
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, "./uploads"),
@@ -24,12 +24,14 @@ const upload = multer({
     fileSize: 1024 * 1024 * 10,
   }
 });
+*/
 
 const app = express();
-const PORT = 5000;
+
+//const PORT = 5000;
 
 mongoose
-  .connect(process.env.MONGO_URI, {
+  .connect(MONGO_URI, {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -39,23 +41,32 @@ mongoose
 
     // 이미지 파일들 외부로 노출시켜주기
     app.use("/uploads", express.static("uploads"));
-   
-    // 이미지 업로드
-    app.post("/images", upload.single("image"), async (req, res) => {
-     const image = await new Image({ 
-        key: req.file.filename, 
-        originalFileName: req.file.originalname 
-      }).save();
-      res.json(image);
-      // console.log(req.file);
-    });
-   
-    //사진정보 가져오기
-    app.get("/images", async(req,res) => {
-      const images = await Image.find();
-      res.json(images);
-    });
-   
+    // json파일이 있으면 파싱해서 body에 저장
+    app.use(express.json());
+    app.use(authenticate);
+    /*  
+    // routes 로 이사 (리팩토링)
+       // 이미지 업로드
+       app.post("/images", upload.single("image"), async (req, res) => {
+        const image = await new Image({ 
+           key: req.file.filename, 
+           originalFileName: req.file.originalname 
+         }).save();
+         res.json(image);
+         // console.log(req.file);
+       });
+      
+       //사진정보 가져오기
+       app.get("/images", async(req,res) => {
+         const images = await Image.find();
+         res.json(images);
+       });
+     */
+
+    // /images 로 시작하는 경로는 모두 imageRouter로!
+    app.use("/images", imageRouter);
+    app.use("/users", userRouter);
+
     app.listen(PORT, () =>
       console.log("Express server listening on PORT " + PORT)
     );

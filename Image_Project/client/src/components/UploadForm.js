@@ -55,7 +55,11 @@ const UploadForm = () => {
 
   return (
     <form onSubmit={onSubmit}>
-      <img src={imgSrc} className={`image-preview ${imgSrc && "image-preview-show"}`} alt="사진" />
+      <img 
+      style={{ width: 200, height: 200, objectFit: "cover" }}
+      src={imgSrc} 
+      className={`image-preview ${imgSrc && "image-preview-show"}`} 
+      alt="사진" />
       <ProgressBar percent={percent} />
       <div className="file-dropper">{fileName}
         <input
@@ -65,7 +69,7 @@ const UploadForm = () => {
           onChange={imageSelectHandler}
         />
       </div>
-      <button type="submit" style={{ maxWidth: '500px', height: 40, borderRadius: 3, cursor:"pointer"}}>제출</button>
+      <button type="submit" style={{ width: "100%", height: 40, borderRadius: 3, cursor:"pointer"}}>제출</button>
     </form>
 
   );

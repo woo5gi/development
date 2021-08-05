@@ -6,7 +6,7 @@ const ImageList = () => {
   const imgList = images.map((image) => (
     <img
       key={image.key}
-      style={{ maxWidth: '500px', margin:"auto"}}
+      style={{ maxWidth: 600, margin:"auto"}}
       src={`http://localhost:5000/uploads/${image.key}`} 
       alt="사진" />
   ));

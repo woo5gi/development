@@ -3,6 +3,7 @@ const userRouter = Router();
 const User = require("../models/User");
 const { hash, compare } = require("bcryptjs");
 const mongoose = require("mongoose");
+// const Image = require("../model/image")
 
 userRouter.post("/register", async (req, res) => {
   try {
@@ -51,7 +52,7 @@ userRouter.patch("/login", async (req, res) => {
 
 userRouter.patch("/logout", async (req, res) => {
   try {
-    console.log(req.user);
+    // console.log(req.user);
     // 인증 코드 server\middleware\authentication.js 로 이사
     if (!req.user) throw new Error("invalid sessionid");
     await User.updateOne(
@@ -67,13 +68,34 @@ userRouter.patch("/logout", async (req, res) => {
 
 userRouter.get("/me", (req, res) => {
   try {
-    if (!req.user) throw new Error("권한이 없습니다.");
+    if (!req.user) throw new Error("/me 권한이 없습니다.");
     res.json({
       message: "success",
       sessionId: req.headers.sessionid,
       name: req.user.name,
       userId: req.user._id,
     });
+  } catch (err) {
+    // console.log(err);
+    res.status(400).json({ message: err.message });
+  }
+});
+
+userRouter.get("/me/images", async (req, res) => {
+// 본인들 사진만 리턴
+  try {
+    const { lastid } = req.query;
+    if (lastid && !mongoose.isValidObjectId(lastid))
+      throw new Error("invalid lastid");
+    if (!req.user) throw new Error("/me/images 권한이 없습니다.");
+    const images = await Image.find(
+      lastid
+        ? { "user._id": req.user.id, _id: { $lt: lastid } }
+        : { "user._id": req.user.id }
+    )
+      .sort({ _id: -1 })
+      .limit(30);
+    res.json(images);
   } catch (err) {
     console.log(err);
     res.status(400).json({ message: err.message });

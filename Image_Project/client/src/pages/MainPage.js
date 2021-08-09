@@ -9,7 +9,6 @@ const MainPage = () => {
     <div>
       <h2>사진첩</h2>
       {me && <UploadForm />}
-      <UploadForm />
       <ImageList />
     </div>
   );

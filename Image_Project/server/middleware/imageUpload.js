@@ -16,7 +16,7 @@ const upload = multer({
     else cb(new Error("invalid file type"), false);
   },
   limits: {
-    fileSize: 1024 * 1024 * 10,
+    fileSize: 1024 * 1024 * 5,
   },
 });
 

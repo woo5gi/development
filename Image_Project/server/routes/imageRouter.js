@@ -2,8 +2,9 @@ const { Router } = require("express");
 const imageRouter = Router();
 const Image = require("../models/Image");
 const { upload } = require("../middleware/imageUpload");
-// const fs = require("fs");
-// const { promisify } = require("util");
+const fs = require("fs");
+const { promisify } = require("util");
+const fileUnlink = promisify(fs.unlink)
 const mongoose = require("mongoose");
 // const { s3, getSignedUrl } = require("../aws");
 // const { v4: uuid } = require("uuid");
@@ -21,7 +22,7 @@ imageRouter.post("/", upload.single("image"), async (req, res) => {
         name: req.user.name,
         username: req.user.username,
       },
-      public: req.file.public,
+      public: req.body.public,
       key: req.file.filename,
       originalFileName: req.file.originalname
     }).save();
@@ -34,7 +35,7 @@ imageRouter.post("/", upload.single("image"), async (req, res) => {
 
 //사진정보 가져오기
 imageRouter.get("/", async (req, res) => {
-  // public한 이미지만 제공
+  //public한 이미지만 제공
   const images = await Image.find({public:true});
   res.json(images);
 });
@@ -45,9 +46,10 @@ imageRouter.delete("/:imageId", async (req, res) => {
   // 1.업로드 폴더 사진삭제
   // 2.데이터베이스 사진삭제
   try {
-    if (!req.user) throw new Error("권한이 없습니다.");
+    if (!req.user) throw new Error("권한이 없습니다.");    
     if (!mongoose.isValidObjectId(req.params.imageId))
       throw new Error("올바르지 않은 이미지id입니다.");
+    //await fileUnlink("./uploads/test.jpeg")
 
     const image = await Image.findOneAndDelete({ _id: req.params.imageId });
     if (!image)

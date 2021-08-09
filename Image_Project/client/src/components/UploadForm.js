@@ -59,7 +59,7 @@ const UploadForm = () => {
       style={{ width: 200, height: 200, objectFit: "cover" }}
       src={imgSrc} 
       className={`image-preview ${imgSrc && "image-preview-show"}`} 
-      alt="사진" />
+      alt="" />
       <ProgressBar percent={percent} />
       <div className="file-dropper">{fileName}
         <input

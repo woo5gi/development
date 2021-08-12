@@ -81,7 +81,7 @@ userRouter.get("/me", (req, res) => {
 });
 
 userRouter.get("/me/images", async (req, res) => {
-// 본인들 사진만 리턴
+  // 본인들 사진만 리턴
   try {
     // const { lastid } = req.query;
     // if (lastid && !mongoose.isValidObjectId(lastid))
@@ -95,7 +95,7 @@ userRouter.get("/me/images", async (req, res) => {
     // )
     //   .sort({ _id: -1 })
     //   .limit(30);
-    const images = await Image.find({"user._id": req.user.id});
+    const images = await Image.find({ "user._id": req.user.id });
     res.json(images);
   } catch (err) {
     console.log(err);

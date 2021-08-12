@@ -12,28 +12,31 @@ const ImagePage = () => {
   const { images, myImages, setImages, setMyImages } = useContext(ImageContext);
   const [me] = useContext(AuthContext);
   const [hasLiked, setHasLiked] = useState(false);
-  const [image, setImage] = useState();
+  // const [image, setImage] = useState();
   const [error, setError] = useState(false);
-  const imageRef = useRef();
+  //const imageRef = useRef();
 
-  useEffect(() => {
-    imageRef.current = images.find((image) => image._id === imageId);
-  }, [images, imageId]);
+  // useEffect(() => {
+  //   imageRef.current = images.find((image) => image._id === imageId);
+  // }, [images, imageId]);
 
-  useEffect(() => {
-    if (imageRef.current) setImage(imageRef.current);
-    else
-      axios
-        .get(`/images/${imageId}`)
-        .then(({ data }) => {
-          setImage(data);
-          setError(false);
-        })
-        .catch((err) => {
-          setError(true);
-          toast.error(err.response.data.message);
-        });
-  }, [imageId]);
+  const image =
+    images.find((image) => image._id === imageId) ||
+    myImages.find((image) => image._id === imageId);
+  // useEffect(() => {
+  //   if (imageRef.current) setImage(imageRef.current);
+  //   else
+  //     axios
+  //       .get(`/images/${imageId}`)
+  //       .then(({ data }) => {
+  //         setImage(data);
+  //         setError(false);
+  //       })
+  //       .catch((err) => {
+  //         setError(true);
+  //         toast.error(err.response.data.message);
+  //       });
+  // }, [imageId]);
 
   useEffect(() => {
     if (me && image && image.likes.includes(me.userId)) setHasLiked(true);
@@ -81,7 +84,7 @@ const ImagePage = () => {
       <img
         style={{ width: "100%" }}
         alt={imageId}
-        src={`http://localhost:5000/${image.key}`}
+        src={`http://localhost:5000/uploads/${image.key}`}
       />
       <span>좋아요 {image.likes.length}</span>
       {me && image.user._id === me.userId && (

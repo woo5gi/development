@@ -12,21 +12,26 @@ const mongoose = require("mongoose");
 
 // 서버에서 app.use("/images", imageRouter); 로 넘겨주기떄문에 /images가 가인 / 로 넘겨준다
 // 이미지 업로드
-imageRouter.post("/", upload.single("image"), async (req, res) => {
+imageRouter.post("/", upload.array("image", 10), async (req, res) => {
   // 유저정보,public 유무확인
   try {
-    if(!req.user) throw new Error("/ 권한이 없습니다.")
-    const image = await new Image({
-      user: {
-        _id: req.user.id,
-        name: req.user.name,
-        username: req.user.username,
-      },
-      public: req.body.public,
-      key: req.file.filename,
-      originalFileName: req.file.originalname
-    }).save();
-    res.json(image);
+    if (!req.user) throw new Error("/ 권한이 없습니다.");
+    const images = await Promise.all(
+      req.files.map(async file => {
+        const image = await new Image({
+          user: {
+            _id: req.user.id,
+            name: req.user.name,
+            username: req.user.username,
+          },
+          public: req.body.public,
+          key: file.filename,
+          originalFileName: file.originalname
+        }).save();
+        return image
+      })
+    );
+    res.json(images);
   } catch (err) {
     console.log(err);
     res.status(400).json({ message: err.message });
@@ -36,7 +41,7 @@ imageRouter.post("/", upload.single("image"), async (req, res) => {
 //사진정보 가져오기
 imageRouter.get("/", async (req, res) => {
   //public한 이미지만 제공
-  const images = await Image.find({public:true});
+  const images = await Image.find({ public: true });
   res.json(images);
 });
 
@@ -46,7 +51,7 @@ imageRouter.delete("/:imageId", async (req, res) => {
   // 1.업로드 폴더 사진삭제
   // 2.데이터베이스 사진삭제
   try {
-    if (!req.user) throw new Error("권한이 없습니다.");    
+    if (!req.user) throw new Error("권한이 없습니다.");
     if (!mongoose.isValidObjectId(req.params.imageId))
       throw new Error("올바르지 않은 이미지id입니다.");
     //await fileUnlink("./uploads/test.jpeg")
@@ -54,7 +59,7 @@ imageRouter.delete("/:imageId", async (req, res) => {
     const image = await Image.findOneAndDelete({ _id: req.params.imageId });
     if (!image)
       return res.json({ message: "요청하신 사진은 이미 삭제되었습니다." });
-      await fileUnlink(`./uploads/${image.key}`);
+    await fileUnlink(`./uploads/${image.key}`);
     // s3.deleteObject(
     //   { Bucket: "image-upload-tutorial", Key: `raw/${image.key}` },
     //   (error) => {
@@ -88,7 +93,7 @@ imageRouter.patch("/:imageId/like", async (req, res) => {
   }
 });
 
-  imageRouter.patch("/:imageId/unlike", async (req, res) => {
+imageRouter.patch("/:imageId/unlike", async (req, res) => {
   // 유저 권한 확인
   // like 중복 취소 안되도록 확인
   try {
@@ -106,6 +111,6 @@ imageRouter.patch("/:imageId/like", async (req, res) => {
     console.log(err);
     res.status(400).json({ message: err.message });
   }
-  });
+});
 
 module.exports = { imageRouter };

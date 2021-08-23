@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { ImageContext } from "../context/ImageContext";
 import { AuthContext } from "../context/AuthContext";
@@ -9,34 +9,33 @@ import { useHistory } from "react-router-dom";
 const ImagePage = () => {
   const history = useHistory();
   const { imageId } = useParams();
-  const { images, myImages, setImages, setMyImages } = useContext(ImageContext);
+  const { images, setImages, setMyImages } = useContext(ImageContext);
   const [me] = useContext(AuthContext);
   const [hasLiked, setHasLiked] = useState(false);
-  // const [image, setImage] = useState();
+  const [image, setImage] = useState();
   const [error, setError] = useState(false);
   //const imageRef = useRef();
 
-  // useEffect(() => {
-  //   imageRef.current = images.find((image) => image._id === imageId);
-  // }, [images, imageId]);
+  useEffect(() => {
+    const img = images.find((image) => image._id === imageId);
+    if (img) setImage(img);
+  }, [images, imageId]);
 
-  const image =
-    images.find((image) => image._id === imageId) ||
-    myImages.find((image) => image._id === imageId);
-  // useEffect(() => {
-  //   if (imageRef.current) setImage(imageRef.current);
-  //   else
-  //     axios
-  //       .get(`/images/${imageId}`)
-  //       .then(({ data }) => {
-  //         setImage(data);
-  //         setError(false);
-  //       })
-  //       .catch((err) => {
-  //         setError(true);
-  //         toast.error(err.response.data.message);
-  //       });
-  // }, [imageId]);
+  useEffect(() => {
+    // if (imageRef.current) setImage(imageRef.current);
+    if (image && image._id === imageId) return;
+    else
+      axios
+        .get(`/images/${imageId}`)
+        .then(({ data }) => {
+          setImage(data);
+          setError(false);
+        })
+        .catch((err) => {
+          setError(true);
+          toast.error(err.response.data.message);
+        });
+  }, [imageId, image]);
 
   useEffect(() => {
     if (me && image && image.likes.includes(me.userId)) setHasLiked(true);
@@ -45,11 +44,10 @@ const ImagePage = () => {
   else if (!image) return <h3>Loading...</h3>;
 
   const updateImage = (images, image) =>
-    [...images.filter((image) => image._id !== imageId), image].sort(
-      (a, b) =>
-        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-    );
-
+    [...images.filter((image) => image._id !== imageId), image].sort((a, b) => {
+      if (a._id < b._id) return 1;
+      else return -1;
+    });
   const onSubmit = async () => {
     const result = await axios.patch(
       `/images/${imageId}/${hasLiked ? "unlike" : "like"}`

@@ -12,7 +12,7 @@ const mongoose = require("mongoose");
 
 // 서버에서 app.use("/images", imageRouter); 로 넘겨주기떄문에 /images가 가인 / 로 넘겨준다
 // 이미지 업로드
-imageRouter.post("/", upload.array("image", 10), async (req, res) => {
+imageRouter.post("/", upload.array("image", 30), async (req, res) => {
   // 유저정보,public 유무확인
   try {
     if (!req.user) throw new Error("/ 권한이 없습니다.");
@@ -40,9 +40,43 @@ imageRouter.post("/", upload.array("image", 10), async (req, res) => {
 
 //사진정보 가져오기
 imageRouter.get("/", async (req, res) => {
-  //public한 이미지만 제공
-  const images = await Image.find({ public: true });
-  res.json(images);
+  try {
+    const { lastid } = req.query;
+    if (lastid && !mongoose.isValidObjectId(lastid))
+      throw new Error("invalid lastid");
+    //public한 이미지만 제공
+    const images = await Image.find(
+      lastid
+        ? {
+          public: true,
+          _id: { $lt: lastid },
+        }
+        : { public: true }
+    )
+      .sort({ _id: -1 })
+      .limit(30);
+    res.json(images);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ message: err.message });
+  }
+});
+
+//이미지 한장씩 불러오기 수정
+imageRouter.get("/:imageId", async (req, res) => {
+  try {
+    const { imageId } = req.params;
+    if (!mongoose.isValidObjectId(imageId))
+      throw new Error("올바르지 않는 이미지id입니다.");
+    const image = await Image.findOne({ _id: imageId });
+    if (!image) throw new Error("해당 이미지는 존재 하지 않습니다.");
+    if (!image.public && (!req.user || req.user.id !== image.user.id))
+      throw new Error("권한이 없습니다.");
+    res.json(image);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ message: err.message });
+  }
 });
 
 imageRouter.delete("/:imageId", async (req, res) => {

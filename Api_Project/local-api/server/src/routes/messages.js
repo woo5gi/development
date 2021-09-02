@@ -36,6 +36,7 @@ const messagesRoute = [
     route: '/messages',
     handler: ({ body }, res) => {
       try {
+        // userId없을경우
         if (!body.userId) throw Error('no userId')
         const msgs = getMsgs()
         const newMsg = {

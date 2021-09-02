@@ -1,6 +1,7 @@
 import fs from 'fs'
 import { resolve } from 'path'
 
+//resolve() 현재에 있는 경로가 잡히게됨
 const basePath = resolve()
 
 const filenames = {

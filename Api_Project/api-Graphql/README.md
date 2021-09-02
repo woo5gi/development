@@ -6,19 +6,19 @@
 <!-- 또는 -->
 Set-ExecutionPolicy Unrestricted
 
-- yarn cache clean
-
-### 환경설정 
-#### 클라이언트
+### 환경설정
 
 - yarn init -y
 - yarn add react react-dom next sass axios
 - yarn add --dev webpack
+- yarn add graphql graphql-request graphql-tag react-query
 
-#### 서버
+### 서버
 
 - yarn add express cors uuid
 - yarn add --dev nodemon
+- yarn add apollo-server apollo-server-express express graphql
+
 
 ### 컴포넌트
 - List => item => input
@@ -27,9 +27,19 @@ Set-ExecutionPolicy Unrestricted
 - client: root 에서 yarn run client
 - server: root 에서 yarn run server
 
-### GraphQL 
-#### 서버
-- yarn add apollo-server apollo-server-express graphql
+### 로그인
+http://localhost:3000/?userid=roy
 
-#### 클라이언트
-- yarn add graphql-request graphql-tag react-query 
+### graphql
+mutation Message($text: String!, $userId:ID!) {
+  createMessage(text:$text, userId: $userId){
+    id
+    text
+    userId
+    timestamp
+  }
+}
+{
+  "text": "graphql playground 에서 작성",
+  "userId": "roy"
+}

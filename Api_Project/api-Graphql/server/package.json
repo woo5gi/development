@@ -5,21 +5,15 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "apollo-server": "^3.1.2",
-    "apollo-server-express": "^3.1.2",
-    "axios": "^0.21.1",
+    "apollo-server": "^3.3.0",
+    "apollo-server-express": "^3.3.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "graphql": "^15.5.1",
-    "next": "^11.0.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "sass": "^1.37.2",
+    "graphql": "^15.5.2",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.12",
-    "webpack": "^5.48.0"
+    "nodemon": "^2.0.12"
   },
   "scripts": {
     "start": "nodemon ./src/index.js"

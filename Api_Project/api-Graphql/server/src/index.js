@@ -16,15 +16,15 @@ const server = new ApolloServer({
 })
 
 const app = express()
-server.start()
-server.applyMiddleware({ 
+await server.start()
+server.applyMiddleware({
   app,
   path: '/graphql',
   cors: {
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', 'https://studio.apollographql.com'],
     credentials: true,
   },
 })
 
-app.listen({port: 8000})
+await app.listen({ port: 8000 })
 console.log('server listening on 8000...')

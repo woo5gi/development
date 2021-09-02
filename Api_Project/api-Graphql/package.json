@@ -1,9 +1,7 @@
 {
-  "name": "api-practice",
+  "name": "api-graphql",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/roy-jung/api-practice.git",
-  "author": "roy-jung <power4ce@gmail.com>",
   "license": "MIT",
   "private": true,
   "workspaces": [

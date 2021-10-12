@@ -1,9 +1,18 @@
 const { Router } = require("express");
 const userRouter = Router();
-const User = require("../models/User");
+const { User, Image } = require("../models");
 const { hash, compare } = require("bcryptjs");
 const mongoose = require("mongoose");
-const Image = require("../models/Image");
+
+userRouter.get("/", async (req, res) => {
+  try {
+    const users = await User.find({});
+    return res.send({ users });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({ err: err.message });
+  }
+});
 
 userRouter.post("/register", async (req, res) => {
   try {

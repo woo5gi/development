@@ -1,14 +1,12 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-const { imageRouter } = require("./routes/imageRouter");
-const { userRouter } = require("./routes/userRouter");
-const { blogRouter } = require("./routes/blogRouter");
+
+const { userRouter, imageRouter, blogRouter } = require("./routes");
 const { searchRouter } = require("./routes/searchRouter");
 const { MONGO_URI, PORT } = process.env;
-const { authenticate } = require("./middleware/authentication")
+const { authenticate } = require("./middleware/authentication");
 const app = express();
-
 
 mongoose
   .connect(MONGO_URI, {
@@ -33,6 +31,5 @@ mongoose
     app.listen(PORT, () =>
       console.log("Express server listening on PORT " + PORT)
     );
-  }).catch((err) => console.log(err));
-
-
+  })
+  .catch((err) => console.log(err));

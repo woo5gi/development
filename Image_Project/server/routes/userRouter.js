@@ -42,7 +42,7 @@ userRouter.patch("/login", async (req, res) => {
     res.json({
       message: "user validated",
       sessionId: session._id,
-      name: user.name
+      name: user.name,
     });
   } catch (err) {
     console.log(err);

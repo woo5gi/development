@@ -3,9 +3,12 @@ const express = require("express");
 const mongoose = require("mongoose");
 const { imageRouter } = require("./routes/imageRouter");
 const { userRouter } = require("./routes/userRouter");
-const { MONGO_URI, PORT} = process.env;
-const {authenticate} = require("./middleware/authentication")
+const { blogRouter } = require("./routes/blogRouter");
+const { searchRouter } = require("./routes/searchRouter");
+const { MONGO_URI, PORT } = process.env;
+const { authenticate } = require("./middleware/authentication")
 const app = express();
+
 
 mongoose
   .connect(MONGO_URI, {
@@ -24,6 +27,8 @@ mongoose
     // /images 로 시작하는 경로는 모두 imageRouter로!
     app.use("/images", imageRouter);
     app.use("/users", userRouter);
+    app.use("/blogs", blogRouter);
+    app.use("/search", searchRouter);
 
     app.listen(PORT, () =>
       console.log("Express server listening on PORT " + PORT)

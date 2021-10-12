@@ -5,6 +5,10 @@ import "./UploadForm.css";
 import ProgressBar from "./ProgressBar";
 import { ImageContext } from "../context/ImageContext";
 
+// 디자인
+import Switch from "@material-ui/core/Switch";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+
 const UploadForm = () => {
   const { setImages, setMyImages } = useContext(ImageContext);
   const [files, setFiles] = useState(null);
@@ -12,7 +16,7 @@ const UploadForm = () => {
   const [percent, setPercent] = useState([]);
   const [isPublic, setIsPublic] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const inputRef = useRef()
+  const inputRef = useRef();
 
   const imageSelectHandler = async (event) => {
     const imageFiles = event.target.files;
@@ -35,63 +39,6 @@ const UploadForm = () => {
 
     setPreviews(imagePreviews);
   };
-
-  // const onSubmitV2 = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     setIsLoading(true);
-  //     const presignedData = await axios.post("/images/presigned", {
-  //       contentTypes: [...files].map((file) => file.type),
-  //     });
-
-  //     await Promise.all(
-  //       [...files].map((file, index) => {
-  //         const { presigned } = presignedData.data[index];
-  //         const formData = new FormData();
-  //         for (const key in presigned.fields) {
-  //           formData.append(key, presigned.fields[key]);
-  //         }
-  //         formData.append("Content-Type", file.type);
-  //         formData.append("file", file);
-  //         return axios.post(presigned.url, formData, {
-  //           onUploadProgress: (e) => {
-  //             setPercent((prevData) => {
-  //               const newData = [...prevData];
-  //               newData[index] = Math.round((100 * e.loaded) / e.total);
-  //               return newData;
-  //             });
-  //           },
-  //         });
-  //       })
-  //     );
-
-  //     const res = await axios.post("/images", {
-  //       images: [...files].map((file, index) => ({
-  //         imageKey: presignedData.data[index].imageKey,
-  //         originalname: file.name,
-  //       })),
-  //       public: isPublic,
-  //     });
-
-  //     if (isPublic) setImages((prevData) => [...res.data, ...prevData]);
-  //     setMyImages((prevData) => [...res.data, ...prevData]);
-
-  //     toast.success("이미지 업로드 성공!");
-  //     setTimeout(() => {
-  //       setPercent([]);
-  //       setPreviews([]);
-  //       setIsLoading(false);
-  //       // inputRef.current.value = null;
-  //     }, 3000);
-  //   } catch (err) {
-  //     console.error(err);
-  //     toast.error(err.response.data.message);
-  //     setPercent([]);
-  //     setPreviews([]);
-  //     setIsLoading(false);
-  //     // inputRef.current.value = null;
-  //   }
-  // };
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -138,9 +85,9 @@ const UploadForm = () => {
     previews.length === 0
       ? "이미지 파일을 업로드 해주세요."
       : previews.reduce(
-        (previous, current) => previous + `${current.fileName},`,
-        ""
-      );
+          (previous, current) => previous + `${current.fileName},`,
+          ""
+        );
 
   return (
     <form onSubmit={onSubmit}>
@@ -164,13 +111,25 @@ const UploadForm = () => {
           onChange={imageSelectHandler}
         />
       </div>
-      <input
+      {/* <input
         type="checkbox"
         id="public-check"
         value={!isPublic}
         onChange={() => setIsPublic(!isPublic)}
+      /> */}
+      {/* <label htmlFor="public-check">{isPublic ? "공개" : "개인"}</label> */}
+      <FormControlLabel
+        control={
+          <Switch
+            color="primary"
+            checked={!isPublic}
+            onChange={() => setIsPublic(!isPublic)}
+            id="public-check"
+          />
+        }
+        label={isPublic ? "공개 사진" : "개인 사진"}
       />
-      <label htmlFor="public-check">비공개</label>
+
       <button
         type="submit"
         disabled={isLoading}

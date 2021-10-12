@@ -28,6 +28,7 @@ const ImagePage = () => {
       axios
         .get(`/images/${imageId}`)
         .then(({ data }) => {
+          console.log({ data });
           setImage(data);
           setError(false);
         })

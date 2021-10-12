@@ -10,16 +10,19 @@ import ImagePage from "./pages/ImagePage";
 
 const App = () => {
   return (
-    <div style={{ maxWidth: 600, margin: "auto" }}>
-      <ToastContainer />
+    <>
       <ToolBar />
-      <Switch>
-        <Route path="/images/:imageId" exact component={ImagePage} />
-        <Route path="/auth/register" exact component={RegisterPage} />
-        <Route path="/auth/login" exact component={LoginPage} />
-        <Route path="/" component={MainPage} />
-      </Switch>
-    </div>
+      <div style={{ maxWidth: 1024, margin: "auto" }}>
+        <ToastContainer />
+        {/* <ToolBar /> */}
+        <Switch>
+          <Route path="/images/:imageId" exact component={ImagePage} />
+          <Route path="/auth/register" exact component={RegisterPage} />
+          <Route path="/auth/login" exact component={LoginPage} />
+          <Route path="/" component={MainPage} />
+        </Switch>
+      </div>
+    </>
   );
 };
 

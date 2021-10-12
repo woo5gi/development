@@ -18,5 +18,12 @@ npm i react-router
 npm i react-router-dom
 
 #### 시작
-- 서버 : npm run dev
-- 클라이언트 : npm run start
+- 서버 : 
+
+cd server
+npm run dev
+
+- 클라이언트 : 
+
+cd client
+npm run start

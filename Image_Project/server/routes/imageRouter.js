@@ -4,7 +4,7 @@ const Image = require("../models/Image");
 const { upload } = require("../middleware/imageUpload");
 const fs = require("fs");
 const { promisify } = require("util");
-const fileUnlink = promisify(fs.unlink)
+const fileUnlink = promisify(fs.unlink);
 const mongoose = require("mongoose");
 // const { s3, getSignedUrl } = require("../aws");
 // const { v4: uuid } = require("uuid");
@@ -17,7 +17,7 @@ imageRouter.post("/", upload.array("image", 30), async (req, res) => {
   try {
     if (!req.user) throw new Error("/ 권한이 없습니다.");
     const images = await Promise.all(
-      req.files.map(async file => {
+      req.files.map(async (file) => {
         const image = await new Image({
           user: {
             _id: req.user.id,
@@ -26,9 +26,9 @@ imageRouter.post("/", upload.array("image", 30), async (req, res) => {
           },
           public: req.body.public,
           key: file.filename,
-          originalFileName: file.originalname
+          originalFileName: file.originalname,
         }).save();
-        return image
+        return image;
       })
     );
     res.json(images);
@@ -48,9 +48,9 @@ imageRouter.get("/", async (req, res) => {
     const images = await Image.find(
       lastid
         ? {
-          public: true,
-          _id: { $lt: lastid },
-        }
+            public: true,
+            _id: { $lt: lastid },
+          }
         : { public: true }
     )
       .sort({ _id: -1 })

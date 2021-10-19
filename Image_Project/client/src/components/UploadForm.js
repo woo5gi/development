@@ -15,7 +15,7 @@ const UploadForm = () => {
   const [previews, setPreviews] = useState([]);
   const [percent, setPercent] = useState([]);
   const [isPublic, setIsPublic] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
   const inputRef = useRef();
 
   const imageSelectHandler = async (event) => {

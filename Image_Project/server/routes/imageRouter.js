@@ -1,18 +1,14 @@
 const { Router } = require("express");
 const imageRouter = Router();
-const Image = require("../models");
+const Image = require("../models/Image");
 const { upload } = require("../middleware/imageUpload");
 const fs = require("fs");
 const { promisify } = require("util");
 const fileUnlink = promisify(fs.unlink);
 const mongoose = require("mongoose");
-// const { commentRouter } = require("./commentRouter");
-
 // const { s3, getSignedUrl } = require("../aws");
 // const { v4: uuid } = require("uuid");
 // const mime = require("mime-types");
-
-// imageRouter.use("/:imageId/comment", commentRouter);
 
 // 서버에서 app.use("/images", imageRouter); 로 넘겨주기떄문에 /images가 가인 / 로 넘겨준다
 // 이미지 업로드

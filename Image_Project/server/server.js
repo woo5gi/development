@@ -1,18 +1,18 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-
-const { userRouter, imageRouter, blogRouter } = require("./routes");
-const { searchRouter } = require("./routes/searchRouter");
+const { imageRouter } = require("./routes/imageRouter");
+const { userRouter } = require("./routes/userRouter");
 const { MONGO_URI, PORT } = process.env;
 const { authenticate } = require("./middleware/authentication");
 const app = express();
 
 mongoose
   .connect(MONGO_URI, {
-    useCreateIndex: true,
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    // 버전이 6.0이상 이면 안해도 됨
+    // useCreateIndex: true,
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true,
   })
   .then(() => {
     console.log("mongodb connected");
@@ -25,8 +25,6 @@ mongoose
     // /images 로 시작하는 경로는 모두 imageRouter로!
     app.use("/images", imageRouter);
     app.use("/users", userRouter);
-    app.use("/blogs", blogRouter);
-    app.use("/search", searchRouter);
 
     app.listen(PORT, () =>
       console.log("Express server listening on PORT " + PORT)

@@ -12,13 +12,7 @@ import "./ImageList.css";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import {
-  CardContent,
-  CardMedia,
-  Card,
-  IconButton,
-  Typography,
-} from "@material-ui/core";
+import { CardContent, CardMedia, Card, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles(() => ({
   root: {

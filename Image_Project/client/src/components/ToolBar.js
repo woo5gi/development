@@ -60,9 +60,8 @@ const ToolBar = () => {
         </Toolbar>
       </AppBar>
     </div>
+
+    /* <MenuItem onClick={handleMenuClose}>Profile</MenuItem> */
   );
 };
-{
-  /* <MenuItem onClick={handleMenuClose}>Profile</MenuItem> */
-}
 export default ToolBar;

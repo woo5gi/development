@@ -1,5 +1,3 @@
-# 라이브강좌 핵심 내용 정리해서 여기(README.md)에 올려두었습니다~ 다시보기하면서 같이 읽고 복습하시면 됩니다!
-
 # 백그라운드 세팅
 0. node 14버전(12나 15도 괜찮음)과 MySQL을 미리 설치하기
 1. cd back (멀티캠퍼스 강좌 수강자라면 cd multicampus-back)
@@ -13,8 +11,7 @@
 9. localhost:3095에서 서버 돌아가는 중
 10. 백엔드 개발자가 API.md와 typings/db.ts를 남겨둔 상황
 
-# 강좌 순서
-## 1일차
+## 
 1. package.json
   - npm init으로 생성
   - npm i react react-dom
@@ -96,7 +93,7 @@
 - npm i @loadable/component @types/loadable__component
 16. @pages/SignUp 작성
 
-## 2일차
+##
 17. 회원가입 axios로 진행
   - npm i axios
   - CORS 문제를 피하기 위해서 devServer에 proxy 세팅
@@ -142,7 +139,7 @@
   - 첫 번째 인자가 주소 문자열이 아닌 주소를 리턴하는 함수
   - 이 함수의 매개변수로 페이지가 들어있어서 현재 몇 페이지인지 알 수 있음.
 
-## 3일차
+##
 28. Workspace에 소켓 연결하기
   - socket.emit이 클라이언트에서 서버로, socket.on이 서버에서 클라이언트로
 29. DMList에 onlineList, dm 이벤트 연결
